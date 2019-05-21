@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Owin.Hosting;
 
 namespace CapturerServer
 {
@@ -14,8 +15,13 @@ namespace CapturerServer
         [STAThread]
         static void Main()
         {
+            var options = new StartOptions();
+            options.Urls.Add("http://127.0.0.1:5000");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            using(WebApp.Start<StartUp>(options))
             Application.Run(new MainForm());
         }
     }
