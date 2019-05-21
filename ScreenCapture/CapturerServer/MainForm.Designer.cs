@@ -41,16 +41,17 @@
             // 
             // StreamPicture
             // 
-            this.StreamPicture.Location = new System.Drawing.Point(57, 87);
+            this.StreamPicture.Enabled = false;
+            this.StreamPicture.Location = new System.Drawing.Point(54, 87);
             this.StreamPicture.Name = "StreamPicture";
-            this.StreamPicture.Size = new System.Drawing.Size(580, 381);
+            this.StreamPicture.Size = new System.Drawing.Size(768, 432);
             this.StreamPicture.TabIndex = 0;
             this.StreamPicture.TabStop = false;
             // 
             // CaptureButton
             // 
             this.CaptureButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.CaptureButton.Location = new System.Drawing.Point(378, 516);
+            this.CaptureButton.Location = new System.Drawing.Point(568, 567);
             this.CaptureButton.Name = "CaptureButton";
             this.CaptureButton.Size = new System.Drawing.Size(146, 36);
             this.CaptureButton.TabIndex = 1;
@@ -62,17 +63,17 @@
             // 
             this.ScreenLabel.AutoSize = true;
             this.ScreenLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.ScreenLabel.Location = new System.Drawing.Point(270, 478);
+            this.ScreenLabel.Location = new System.Drawing.Point(368, 529);
             this.ScreenLabel.Name = "ScreenLabel";
-            this.ScreenLabel.Size = new System.Drawing.Size(151, 25);
+            this.ScreenLabel.Size = new System.Drawing.Size(145, 25);
             this.ScreenLabel.TabIndex = 2;
-            this.ScreenLabel.Text = "Current Screen:";
+            this.ScreenLabel.Text = "Current Screen";
             this.ScreenLabel.Click += new System.EventHandler(this.ScreenLabel_Click);
             // 
             // PreviousButton
             // 
             this.PreviousButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.PreviousButton.Location = new System.Drawing.Point(52, 474);
+            this.PreviousButton.Location = new System.Drawing.Point(54, 525);
             this.PreviousButton.Name = "PreviousButton";
             this.PreviousButton.Size = new System.Drawing.Size(102, 36);
             this.PreviousButton.TabIndex = 3;
@@ -83,7 +84,7 @@
             // NextButton
             // 
             this.NextButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.NextButton.Location = new System.Drawing.Point(530, 474);
+            this.NextButton.Location = new System.Drawing.Point(720, 525);
             this.NextButton.Name = "NextButton";
             this.NextButton.Size = new System.Drawing.Size(102, 36);
             this.NextButton.TabIndex = 4;
@@ -95,7 +96,7 @@
             // 
             this.ControlLabel.AutoSize = true;
             this.ControlLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.ControlLabel.Location = new System.Drawing.Point(52, 533);
+            this.ControlLabel.Location = new System.Drawing.Point(54, 584);
             this.ControlLabel.Name = "ControlLabel";
             this.ControlLabel.Size = new System.Drawing.Size(142, 25);
             this.ControlLabel.TabIndex = 5;
@@ -114,7 +115,7 @@
             // ExitButton
             // 
             this.ExitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
-            this.ExitButton.Location = new System.Drawing.Point(530, 516);
+            this.ExitButton.Location = new System.Drawing.Point(720, 567);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(102, 36);
             this.ExitButton.TabIndex = 7;
@@ -126,7 +127,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(688, 581);
+            this.ClientSize = new System.Drawing.Size(857, 619);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.HeaderLabel);
             this.Controls.Add(this.ControlLabel);

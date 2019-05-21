@@ -14,17 +14,30 @@ namespace CapturerServer
 {
     public partial class MainForm : Form
     {
-        private Thread t;
+        private Thread captureThread;
         private int currentScreenID = 0;
         private bool isCapturing = false;
         private Bitmap currentCapture;
         private bool abort = false;
+        private Action updateDelegate;
 
         public MainForm()
         {
             InitializeComponent();
-            t = new Thread(CaptureScreen);
-            t.Start();
+            updateDelegate = UpdateImage;
+            currentCapture = new Bitmap(1, 1);
+
+            //Screens Setup
+            ScreenLabel.Text = GetScreenText(Screen.AllScreens[currentScreenID]);
+            if(Screen.AllScreens.Length == 1)
+            {
+                PreviousButton.Enabled = false;
+                NextButton.Enabled = false;
+            }
+
+            //Start CaptureThread
+            captureThread = new Thread(CaptureScreen);
+            captureThread.Start();
         }
 
         private void ScreenLabel_Click(object sender, EventArgs e)
@@ -39,7 +52,7 @@ namespace CapturerServer
             {
                 currentScreenID = Screen.AllScreens.Length - 1;
             }
-            ScreenLabel.Text = "Current Screen: Screen " + currentScreenID;
+            ScreenLabel.Text = GetScreenText(Screen.AllScreens[currentScreenID]);
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -49,12 +62,15 @@ namespace CapturerServer
             {
                 currentScreenID = 0;
             }
+            Screen s = Screen.AllScreens[currentScreenID];
+            ScreenLabel.Text = GetScreenText(Screen.AllScreens[currentScreenID]);
         }
 
         private void CaptureButton_Click(object sender, EventArgs e)
         {
             isCapturing = !isCapturing;
-            StreamPicture.Image = null;
+            StreamPicture.Enabled = isCapturing;
+            CaptureButton.Text = isCapturing ? "Stop Capture" : "Start Capture";
         }
 
         private void CaptureScreen()
@@ -65,14 +81,23 @@ namespace CapturerServer
                 {
                     //Capture
                     Screen current = Screen.AllScreens[currentScreenID];
+                    //Rectangle captureRect = new Rectangle(0, 0, 1920, 1080);
                     Rectangle captureRect = current.Bounds;
-                    Bitmap captureBitmap = new Bitmap(StreamPicture.Width, StreamPicture.Height, PixelFormat.Format32bppArgb);
+                    Bitmap captureBitmap = new Bitmap(captureRect.Width, captureRect.Height, PixelFormat.Format32bppArgb);
                     Graphics captureGraphics = Graphics.FromImage(captureBitmap);
                     captureGraphics.CopyFromScreen(captureRect.Left, captureRect.Top, 0, 0, captureRect.Size);
 
-                    //Display/Store
-                    StreamPicture.Image = captureBitmap;
-                    currentCapture = captureBitmap;
+                    //Store
+                    lock(currentCapture)
+                    {
+                        if (currentCapture != null) currentCapture.Dispose();
+                        currentCapture = captureBitmap;
+                    }
+
+                    //Display
+                    Invoke(updateDelegate);
+
+                    captureGraphics.Dispose();
                 }
 
                 Thread.Sleep(1000);
@@ -87,7 +112,26 @@ namespace CapturerServer
         private void ExitButton_Click(object sender, EventArgs e)
         {
             abort = true;
-            t.Join(5000);
+            captureThread.Abort();
+            Close();
+        }
+
+        private void UpdateImage()
+        {
+            if (StreamPicture.Image != null) StreamPicture.Image.Dispose();
+            if (currentCapture != null)
+            {
+                Bitmap newImage = new Bitmap(StreamPicture.Width, StreamPicture.Height);
+                Graphics captureGraphics = Graphics.FromImage(newImage);
+                captureGraphics.DrawImage(currentCapture, new Rectangle(0, 0, StreamPicture.Width, StreamPicture.Height));
+                StreamPicture.Image = newImage;
+                captureGraphics.Dispose();
+            }
+        }
+
+        private string GetScreenText(Screen s)
+        {
+            return $"\"{s.DeviceName}\"[{currentScreenID}]({s.Bounds.Width}x{s.Bounds.Height})";
         }
     }
 }
