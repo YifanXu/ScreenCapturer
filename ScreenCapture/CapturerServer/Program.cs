@@ -21,8 +21,12 @@ namespace CapturerServer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using(WebApp.Start<StartUp>(options))
-            Application.Run(new MainForm());
+            using (WebApp.Start<StartUp>(options))
+            {
+                Application.Run(new MainForm());
+                MainForm.staticInstance.abort = true;
+                MainForm.staticInstance.captureThread.Join(5000);
+            }
         }
     }
 }

@@ -9,20 +9,28 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using System.IO;
 
 namespace CapturerServer
 {
     public partial class MainForm : Form
     {
-        private Thread captureThread;
+        public static MainForm staticInstance;
+
+        public Thread captureThread;
         private int currentScreenID = 0;
         private bool isCapturing = false;
-        private Bitmap currentCapture;
-        private bool abort = false;
+        public  bool abort = false;
         private Action updateDelegate;
+
+        private Bitmap currentCapture;
+        public byte[] jpegDisplay;
+        public int imgID = 0;
 
         public MainForm()
         {
+            staticInstance = this;
             InitializeComponent();
             updateDelegate = UpdateImage;
             currentCapture = new Bitmap(1, 1);
@@ -81,22 +89,34 @@ namespace CapturerServer
                 {
                     //Capture
                     Screen current = Screen.AllScreens[currentScreenID];
-                    //Rectangle captureRect = new Rectangle(0, 0, 1920, 1080);
                     Rectangle captureRect = current.Bounds;
                     Bitmap captureBitmap = new Bitmap(captureRect.Width, captureRect.Height, PixelFormat.Format32bppArgb);
                     Graphics captureGraphics = Graphics.FromImage(captureBitmap);
                     captureGraphics.CopyFromScreen(captureRect.Left, captureRect.Top, 0, 0, captureRect.Size);
 
-                    //Store
-                    lock(currentCapture)
+                    if (currentCapture == null || currentCapture.Size != captureBitmap.Size || !CompareMemCmp(currentCapture, captureBitmap))
                     {
-                        if (currentCapture != null) currentCapture.Dispose();
-                        currentCapture = captureBitmap;
+                        //Manipulate ID
+                        imgID++;
+                        if (imgID > 100000) imgID = imgID % 100000;
+
+                        //Store
+                        lock (currentCapture)
+                        {
+                            if (currentCapture != null) currentCapture.Dispose();
+                            currentCapture = captureBitmap;
+                        }
+
+                        //Transform
+                        using (var memStream = new MemoryStream())
+                        {
+                            captureBitmap.Save(memStream, ImageFormat.Jpeg);
+                            jpegDisplay = memStream.ToArray();
+                        }
+
+                        //Display
+                        Invoke(updateDelegate);
                     }
-
-                    //Display
-                    Invoke(updateDelegate);
-
                     captureGraphics.Dispose();
                 }
 
@@ -118,6 +138,7 @@ namespace CapturerServer
 
         private void UpdateImage()
         {
+            ControlLabel.Text = imgID.ToString();
             if (StreamPicture.Image != null) StreamPicture.Image.Dispose();
             if (currentCapture != null)
             {
@@ -132,6 +153,36 @@ namespace CapturerServer
         private string GetScreenText(Screen s)
         {
             return $"\"{s.DeviceName}\"[{currentScreenID}]({s.Bounds.Width}x{s.Bounds.Height})";
+        }
+        
+        //Comparing Bitmaps
+
+        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int memcmp(IntPtr b1, IntPtr b2, long count);
+
+        private static bool CompareMemCmp(Bitmap b1, Bitmap b2)
+        {
+            if ((b1 == null) != (b2 == null)) return false;
+            if (b1.Size != b2.Size) return false;
+
+            var bd1 = b1.LockBits(new Rectangle(new Point(0, 0), b1.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            var bd2 = b2.LockBits(new Rectangle(new Point(0, 0), b2.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+            try
+            {
+                IntPtr bd1scan0 = bd1.Scan0;
+                IntPtr bd2scan0 = bd2.Scan0;
+
+                int stride = bd1.Stride;
+                int len = stride * b1.Height;
+
+                return memcmp(bd1scan0, bd2scan0, len) == 0;
+            }
+            finally
+            {
+                b1.UnlockBits(bd1);
+                b2.UnlockBits(bd2);
+            }
         }
     }
 }

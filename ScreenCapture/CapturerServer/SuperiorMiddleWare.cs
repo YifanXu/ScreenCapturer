@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Owin;
+using System.IO;
 
 namespace CapturerServer
 {
@@ -18,8 +19,22 @@ namespace CapturerServer
             var path = context.Request.Path.Value;
             if (path == "/")
             {
-                context.Response.StatusCode = 302;
-                context.Response.Redirect("https://www.google.com");
+                context.Response.Redirect("/static/default.html");
+                return;
+            }
+            if(path == "/broadcast_img")
+            {
+                var MF = MainForm.staticInstance;
+                if (MF.jpegDisplay == null) return;
+                context.Response.ContentType = "image/jpeg";
+                context.Response.Write(MF.jpegDisplay, 0, MF.jpegDisplay.Length);
+                return;
+            }
+            if(path == "/imgInfo")
+            {
+                context.Response.ContentType = "text/plain";
+                context.Response.Write(MainForm.staticInstance.imgID.ToString());
+                return;
             }
 
             await this.Next.Invoke(context);
