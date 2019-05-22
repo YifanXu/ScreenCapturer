@@ -138,7 +138,7 @@ namespace CapturerServer
 
         private void UpdateImage()
         {
-            ControlLabel.Text = imgID.ToString();
+            idLabel.Text = "id=" + imgID.ToString();
             if (StreamPicture.Image != null) StreamPicture.Image.Dispose();
             if (currentCapture != null)
             {

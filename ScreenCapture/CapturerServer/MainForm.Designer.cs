@@ -36,11 +36,13 @@
             this.ControlLabel = new System.Windows.Forms.Label();
             this.HeaderLabel = new System.Windows.Forms.Label();
             this.ExitButton = new System.Windows.Forms.Button();
+            this.idLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.StreamPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // StreamPicture
             // 
+            this.StreamPicture.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.StreamPicture.Enabled = false;
             this.StreamPicture.Location = new System.Drawing.Point(54, 87);
             this.StreamPicture.Name = "StreamPicture";
@@ -50,6 +52,7 @@
             // 
             // CaptureButton
             // 
+            this.CaptureButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CaptureButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.CaptureButton.Location = new System.Drawing.Point(568, 567);
             this.CaptureButton.Name = "CaptureButton";
@@ -61,6 +64,7 @@
             // 
             // ScreenLabel
             // 
+            this.ScreenLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.ScreenLabel.AutoSize = true;
             this.ScreenLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.ScreenLabel.Location = new System.Drawing.Point(368, 529);
@@ -72,6 +76,7 @@
             // 
             // PreviousButton
             // 
+            this.PreviousButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PreviousButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.PreviousButton.Location = new System.Drawing.Point(54, 525);
             this.PreviousButton.Name = "PreviousButton";
@@ -83,6 +88,7 @@
             // 
             // NextButton
             // 
+            this.NextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.NextButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.NextButton.Location = new System.Drawing.Point(720, 525);
             this.NextButton.Name = "NextButton";
@@ -94,6 +100,7 @@
             // 
             // ControlLabel
             // 
+            this.ControlLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ControlLabel.AutoSize = true;
             this.ControlLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.ControlLabel.Location = new System.Drawing.Point(54, 584);
@@ -114,6 +121,7 @@
             // 
             // ExitButton
             // 
+            this.ExitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ExitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F);
             this.ExitButton.Location = new System.Drawing.Point(720, 567);
             this.ExitButton.Name = "ExitButton";
@@ -123,11 +131,23 @@
             this.ExitButton.UseVisualStyleBackColor = true;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
+            // idLabel
+            // 
+            this.idLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.idLabel.AutoSize = true;
+            this.idLabel.Location = new System.Drawing.Point(737, 71);
+            this.idLabel.Name = "idLabel";
+            this.idLabel.Size = new System.Drawing.Size(85, 13);
+            this.idLabel.TabIndex = 9;
+            this.idLabel.Text = "No img avaliable";
+            this.idLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 619);
+            this.Controls.Add(this.idLabel);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.HeaderLabel);
             this.Controls.Add(this.ControlLabel);
@@ -155,6 +175,7 @@
         private System.Windows.Forms.Label ControlLabel;
         private System.Windows.Forms.Label HeaderLabel;
         private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.Label idLabel;
     }
 }
 
