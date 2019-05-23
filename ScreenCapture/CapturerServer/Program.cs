@@ -16,7 +16,7 @@ namespace CapturerServer
         static void Main()
         {
             var options = new StartOptions();
-            options.Urls.Add("http://127.0.0.1:5000");
+            options.Urls.Add("http://127.0.0.1:80");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
