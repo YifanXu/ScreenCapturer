@@ -17,6 +17,7 @@ namespace CapturerServer
     public partial class MainForm : Form
     {
         public static MainForm staticInstance;
+        public const int captureInterval = 100;
 
         public Thread captureThread;
         private int currentScreenID = 0;
@@ -120,7 +121,7 @@ namespace CapturerServer
                     captureGraphics.Dispose();
                 }
 
-                Thread.Sleep(300);
+                Thread.Sleep(captureInterval);
             }
         }
 

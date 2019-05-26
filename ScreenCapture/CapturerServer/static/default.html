@@ -5,8 +5,7 @@
     <title>Default</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
 </head>
-<body>
-    <h1>My Image</h1>
+<body onresize="ResizeImg()">
     <img id="myImg" src="/broadcast_img?id=-1" />
     <div id="info">-1</div>
     <script type="text/javascript">
@@ -19,9 +18,7 @@
             $.get(
                 "/imgInfo",
                 function (data) {
-                    console.log(data);
                     if ($("data").val() == data) {
-                        console.log("skip frame!");
                     }
                     else {
                         $("#info").html(data);
@@ -30,8 +27,23 @@
                 });
         }
 
+        function ResizeImg() {
+            let originalWidth = $("#myImg").width();
+            let originalHeight = $("#myImg").height();
+            let scale = Math.min(window.innerWidth / originalWidth, window.innerHeight / originalHeight);
+            console.log("original:" + originalWidth.toString() + "x" + originalHeight.toString());
+            console.log(scale);
+            $("#myImg").attr("width", (originalWidth * scale).toString());
+            $("#myImg").attr("height", (originalHeight * scale).toString());
+        }
+
         $(document).ready(function () {
-            setInterval(UpdateImage, 300);
+            UpdateImage();
+            //Resize image
+            ResizeImg();
+
+            //Update
+            setInterval(UpdateImage, 100);
         });
     </script>
 </body>
