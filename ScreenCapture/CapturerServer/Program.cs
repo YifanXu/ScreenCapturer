@@ -22,11 +22,13 @@ namespace CapturerServer
             options.Urls.Add($"http://{Environment.MachineName}:80");
             try
             {
-                options.Urls.Add(GetLocalIPAddress());
+                string ip = GetLocalIPAddress();
+                DataStatic.address = ip + ":80";
+                options.Urls.Add(DataStatic.address);
             }
             catch(Exception)
             {
-
+                
             }
 
             Application.EnableVisualStyles();

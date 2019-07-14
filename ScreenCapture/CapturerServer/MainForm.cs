@@ -26,13 +26,12 @@ namespace CapturerServer
         private Action updateDelegate;
 
         private Bitmap currentCapture;
-        public byte[] jpegDisplay;
-        public int imgID = 0;
 
         public MainForm()
         {
             staticInstance = this;
             InitializeComponent();
+            AddressLabel.Text = DataStatic.address;
             updateDelegate = UpdateImage;
             currentCapture = new Bitmap(1, 1);
 
@@ -98,8 +97,8 @@ namespace CapturerServer
                     if (currentCapture == null || currentCapture.Size != captureBitmap.Size || !CompareMemCmp(currentCapture, captureBitmap))
                     {
                         //Manipulate ID
-                        imgID++;
-                        if (imgID > 100000) imgID = imgID % 100000;
+                        DataStatic.imgID++;
+                        if (DataStatic.imgID > 100000) DataStatic.imgID = DataStatic.imgID % 100000;
 
                         //Store
                         lock (currentCapture)
@@ -112,7 +111,7 @@ namespace CapturerServer
                         using (var memStream = new MemoryStream())
                         {
                             captureBitmap.Save(memStream, ImageFormat.Jpeg);
-                            jpegDisplay = memStream.ToArray();
+                            DataStatic.jpegDisplay = memStream.ToArray();
                         }
 
                         //Display
@@ -139,7 +138,7 @@ namespace CapturerServer
 
         private void UpdateImage()
         {
-            idLabel.Text = "id=" + imgID.ToString();
+            idLabel.Text = "id=" + DataStatic.imgID.ToString();
             if (StreamPicture.Image != null) StreamPicture.Image.Dispose();
             if (currentCapture != null)
             {

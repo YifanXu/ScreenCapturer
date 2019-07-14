@@ -37,6 +37,7 @@
             this.HeaderLabel = new System.Windows.Forms.Label();
             this.ExitButton = new System.Windows.Forms.Button();
             this.idLabel = new System.Windows.Forms.Label();
+            this.AddressLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.StreamPicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -142,11 +143,21 @@
             this.idLabel.Text = "No img avaliable";
             this.idLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // AddressLabel
+            // 
+            this.AddressLabel.AutoSize = true;
+            this.AddressLabel.Location = new System.Drawing.Point(56, 71);
+            this.AddressLabel.Name = "AddressLabel";
+            this.AddressLabel.Size = new System.Drawing.Size(71, 13);
+            this.AddressLabel.TabIndex = 10;
+            this.AddressLabel.Text = "AddressLabel";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 619);
+            this.Controls.Add(this.AddressLabel);
             this.Controls.Add(this.idLabel);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.HeaderLabel);
@@ -176,6 +187,7 @@
         private System.Windows.Forms.Label HeaderLabel;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Label idLabel;
+        private System.Windows.Forms.Label AddressLabel;
     }
 }
 

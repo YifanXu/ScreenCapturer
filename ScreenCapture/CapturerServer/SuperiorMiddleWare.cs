@@ -24,16 +24,15 @@ namespace CapturerServer
             }
             if(path == "/broadcast_img")
             {
-                var MF = MainForm.staticInstance;
-                if (MF.jpegDisplay == null) return;
+                if (DataStatic.jpegDisplay == null) return;
                 context.Response.ContentType = "image/jpeg";
-                context.Response.Write(MF.jpegDisplay, 0, MF.jpegDisplay.Length);
+                context.Response.Write(DataStatic.jpegDisplay, 0, DataStatic.jpegDisplay.Length);
                 return;
             }
             if(path == "/imgInfo")
             {
                 context.Response.ContentType = "text/plain";
-                context.Response.Write(MainForm.staticInstance.imgID.ToString());
+                context.Response.Write(DataStatic.imgID.ToString());
                 return;
             }
 
